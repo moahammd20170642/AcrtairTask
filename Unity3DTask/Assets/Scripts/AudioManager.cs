@@ -118,7 +118,7 @@ public class AudioManager : MonoBehaviour
         audioPlayer.stopAudio();  // Stop audio playback
         recordButton.interactable = true;  // Re-enable record button when stop is hit
         animatorController.SetIdle();
-        //animatorController.gameObject.GetComponent<Animator>().enabled = true;
+        animatorController.gameObject.GetComponent<Animator>().enabled = true;
         resetAudio();  // Reset the audio manager
         Debug.Log("Audio stopped. Ready for new recording.");
     }
