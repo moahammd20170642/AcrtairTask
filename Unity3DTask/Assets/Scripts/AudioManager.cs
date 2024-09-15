@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;  // Ensure you're using UnityEngine.UI to control buttons
 
 public class AudioManager : MonoBehaviour
 {
@@ -10,25 +11,20 @@ public class AudioManager : MonoBehaviour
     private AudioUploader audioUploader;
     private AudioFetcher audioFetcher;
 
-
     [SerializeField] private AudioPlayer audioPlayer;
-
     [SerializeField] private AnimatorController animatorController;
+    [SerializeField] private Button recordButton; // Reference to the record button
 
     private string directoryPath = "Recordings";
     private string serverUrl = "https://xfojojrxiv9w43-5000.proxy.runpod.net";
     private string filePath = "recording.wav";
     private string ssid = null;
 
-    private void Start()
-    {
-
-    }
     private void Awake()
     {
         resetAudio();
-
     }
+
     public void resetAudio()
     {
         Debug.Log("Initializing AudioManager...");
@@ -43,7 +39,6 @@ public class AudioManager : MonoBehaviour
 
     private void Update()
     {
-        // Constantly update the recording process to detect silence.
         audioRecorder.UpdateRecording();
     }
 
@@ -51,7 +46,7 @@ public class AudioManager : MonoBehaviour
     {
         Debug.Log("Starting recording...");
         animatorController.StartListening();
-        // Start recording and set up silence detection.
+        recordButton.interactable = false;  // Disable the record button when recording starts
         audioRecorder.StartRecording();
         audioRecorder.OnSilenceExceeded += StopRecording;
 
@@ -63,7 +58,6 @@ public class AudioManager : MonoBehaviour
         animatorController.SetIdle();
         Debug.Log("Stopping recording due to silence or user command...");
 
-        // Stop recording and get the audio clip.
         AudioClip clip = audioRecorder.StopRecording();
         if (clip != null)
         {
@@ -83,6 +77,7 @@ public class AudioManager : MonoBehaviour
 
         this.ssid = ssid;
         Debug.Log("Fetching response audio from server...");
+        recordButton.interactable = false; // Disable record button while fetching and playing responses
         StartCoroutine(audioFetcher.FetchAudioFiles(ssid, OnFetchComplete));
     }
 
@@ -95,31 +90,41 @@ public class AudioManager : MonoBehaviour
         {
             Debug.Log($"Playing {queuedFiles.Count} fetched audio file(s)...");
             animatorController.gameObject.GetComponent<Animator>().enabled = false;
-            StartCoroutine(audioPlayer.PlayQueuedAudio(queuedFiles));
+            StartCoroutine(PlayResponses(queuedFiles));
         }
         else
         {
             Debug.LogWarning("No audio files found to play.");
+            recordButton.interactable = true;  // Re-enable record button if no responses found
         }
+    }
+
+    private IEnumerator PlayResponses(Queue<string> queuedFiles)
+    {
+        yield return StartCoroutine(audioPlayer.PlayQueuedAudio(queuedFiles));
+        // Re-enable the record button after responses finish playing
+        recordButton.interactable = true;
+        //animatorController.gameObject.GetComponent<Animator>().enabled = true;
     }
 
     private void OnUploadError(string error)
     {
         Debug.LogError("Upload failed with error: " + error);
+        recordButton.interactable = true;  // Re-enable record button in case of error
     }
 
     public void stopAudio()
     {
-        audioPlayer.stopAudio();
+        audioPlayer.stopAudio();  // Stop audio playback
+        recordButton.interactable = true;  // Re-enable record button when stop is hit
         animatorController.SetIdle();
-        animatorController.gameObject.GetComponent<Animator>().enabled = true;
-        resetAudio();
+        //animatorController.gameObject.GetComponent<Animator>().enabled = true;
+        resetAudio();  // Reset the audio manager
+        Debug.Log("Audio stopped. Ready for new recording.");
     }
+
     public void TriggerCoffeeAnimation()
     {
         animatorController.TriggerCoffeeAnimation();
-
-
     }
-
 }

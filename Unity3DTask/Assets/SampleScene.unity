@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 382406435}
   - component: {fileID: 382406434}
   m_Layer: 5
-  m_Name: coffe buttom
+  m_Name: Animtion trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -514,6 +514,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioPlayer: {fileID: 1930936109}
   animatorController: {fileID: 936857956}
+  recordButton: {fileID: 1617400172}
 --- !u!1 &486231446
 GameObject:
   m_ObjectHideFlags: 0
@@ -724,7 +725,7 @@ GameObject:
   - component: {fileID: 767707413}
   - component: {fileID: 767707412}
   m_Layer: 5
-  m_Name: Button (1)
+  m_Name: Button Stop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1054,7 +1055,7 @@ GameObject:
   - component: {fileID: 1617400173}
   - component: {fileID: 1617400172}
   m_Layer: 5
-  m_Name: Button
+  m_Name: ButtonRecord
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,6 +1355,7 @@ GameObject:
   - component: {fileID: 1930936109}
   - component: {fileID: 1930936111}
   - component: {fileID: 1930936112}
+  - component: {fileID: 1930936113}
   m_Layer: 0
   m_Name: Audio player
   m_TagString: Untagged
@@ -1532,6 +1534,21 @@ MonoBehaviour:
   laughterThreshold: 0.5
   laughterMultiplier: 1.5
   smoothAmount: 70
+--- !u!114 &1930936113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930936106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ad6a37df6421214bb4ac8729d755998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterAnimator: {fileID: 936857954}
+  lipSyncContext: {fileID: 1930936111}
+  useLipSync: 1
 --- !u!1 &224998731300503845
 GameObject:
   m_ObjectHideFlags: 0
