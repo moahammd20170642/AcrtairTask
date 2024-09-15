@@ -9,7 +9,7 @@ public class AudioManager : MonoBehaviour
     private AudioSaver audioSaver;
     private AudioUploader audioUploader;
     private AudioFetcher audioFetcher;
- 
+
 
     [SerializeField] private AudioPlayer audioPlayer;
 
@@ -22,7 +22,7 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-       
+
     }
     private void Awake()
     {
@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
         audioRecorder.StartRecording();
         audioRecorder.OnSilenceExceeded += StopRecording;
 
-         Debug.Log("Recording started and waiting for silence detection.");
+        Debug.Log("Recording started and waiting for silence detection.");
     }
 
     public void StopRecording()
@@ -109,10 +109,17 @@ public class AudioManager : MonoBehaviour
     }
 
     public void stopAudio()
-    {   
+    {
         audioPlayer.stopAudio();
         animatorController.SetIdle();
         animatorController.gameObject.GetComponent<Animator>().enabled = true;
         resetAudio();
     }
+    public void TriggerCoffeeAnimation()
+    {
+        animatorController.TriggerCoffeeAnimation();
+
+
+    }
+
 }

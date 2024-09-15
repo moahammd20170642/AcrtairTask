@@ -14,6 +14,8 @@ public class AnimatorController : MonoBehaviour
         Debug.Log("Setting Idle animation.");
         animator.SetBool("isListening", false);
         animator.SetBool("isPlayingAudio", false);
+        animator.SetBool("triggerCoffee", false);
+
     }
 
     public void StartListening()
@@ -25,7 +27,17 @@ public class AnimatorController : MonoBehaviour
 
     public void TriggerCoffeeAnimation()
     {
-        Debug.Log("Triggering Coffee animation.");
-        animator.SetTrigger("triggerCoffee");
+        if (animator.GetBool("triggerCoffee") == false)
+        {
+
+            Debug.Log("Triggering Coffee animation.");
+            animator.SetBool("triggerCoffee", true);
+        }
+        else
+        {
+
+            SetIdle();
+        }
     }
+
 }
